@@ -135,6 +135,11 @@ internal class KClassImpl<T : Any>(override val jClass: Class<T>) : KDeclaration
     override val objectInstance: T?
         get() = objectInstance_()
 
+    override fun isInstance(value: Any?): Boolean {
+        // TODO: use Kotlin semantics (see TypeIntrinsics)
+        return jClass.isInstance(value)
+    }
+
     override val typeParameters: List<KTypeParameter>
         get() = descriptor.declaredTypeParameters.map(::KTypeParameterImpl)
 
