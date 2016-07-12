@@ -104,7 +104,7 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
 
     private boolean checkNames() {
         if (!KotlinNameSuggester.INSTANCE.isIdentifier(getFunctionName())) return false;
-        for (ParameterInfo parameterInfo : parameterTablePanel.getParameterInfos()) {
+        for (ExtractFunctionParameterTablePanel.ParameterInfo parameterInfo : parameterTablePanel.getSelectedParameterInfos()) {
             if (!KotlinNameSuggester.INSTANCE.isIdentifier(parameterInfo.getName())) return false;
         }
         return true;
@@ -263,8 +263,8 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
         return createNewDescriptor(originalDescriptor.getData(),
                                    getFunctionName(),
                                    getVisibility(),
-                                   parameterTablePanel.getReceiverInfo(),
-                                   parameterTablePanel.getParameterInfos(),
+                                   parameterTablePanel.getSelectedReceiverInfo(),
+                                   parameterTablePanel.getSelectedParameterInfos(),
                                    (KotlinType) returnTypeBox.getSelectedItem());
     }
 
@@ -277,12 +277,12 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
             @NotNull ExtractableCodeDescriptor originalDescriptor,
             @NotNull String newName,
             @NotNull String newVisibility,
-            @Nullable ParameterInfo newReceiverInfo,
-            @NotNull List<ParameterInfo> newParameterInfos,
+            @Nullable ExtractFunctionParameterTablePanel.ParameterInfo newReceiverInfo,
+            @NotNull List<ExtractFunctionParameterTablePanel.ParameterInfo> newParameterInfos,
             @Nullable KotlinType returnType
     ) {
         Map<Parameter, Parameter> oldToNewParameters = ContainerUtil.newLinkedHashMap();
-        for (ParameterInfo parameterInfo : newParameterInfos) {
+        for (ExtractFunctionParameterTablePanel.ParameterInfo parameterInfo : newParameterInfos) {
             oldToNewParameters.put(parameterInfo.getOriginalParameter(), parameterInfo.toParameter());
         }
         Parameter originalReceiver = originalDescriptor.getReceiverParameter();
