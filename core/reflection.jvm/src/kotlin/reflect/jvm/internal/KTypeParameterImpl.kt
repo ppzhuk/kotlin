@@ -39,4 +39,7 @@ internal class KTypeParameterImpl(val descriptor: TypeParameterDescriptor) : KTy
             Variance.IN_VARIANCE -> KVariance.IN
             Variance.OUT_VARIANCE -> KVariance.OUT
         }
+
+    override val isReified: Boolean
+        get() = descriptor.isReified
 }
