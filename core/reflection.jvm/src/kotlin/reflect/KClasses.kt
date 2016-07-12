@@ -242,3 +242,12 @@ fun <T : Any> KClass<T>.cast(value: Any?): T {
     @Suppress("UNCHECKED_CAST")
     return value as T
 }
+
+
+/**
+ * TODO
+ */
+fun KClass.Companion.forName(qualifiedName: String): KClass<*> {
+    // TODO: map Java names to Kotlin
+    return Class.forName(qualifiedName).kotlin
+}
