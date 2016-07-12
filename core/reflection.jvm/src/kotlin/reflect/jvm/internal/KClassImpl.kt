@@ -163,6 +163,9 @@ internal class KClassImpl<T : Any>(override val jClass: Class<T>) : KDeclaration
             }
         }
 
+    override val visibility: KVisibility?
+        get() = descriptor.visibility.toKVisibility()
+
     override val isFinal: Boolean
         get() = descriptor.modality == Modality.FINAL
 
