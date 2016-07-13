@@ -114,7 +114,7 @@ fun getFunctionForExtractedFragment(
         val generatorOptions = ExtractionGeneratorOptions(inTempFile = true,
                                                           dummyName = GENERATED_FUNCTION_NAME,
                                                           allowExpressionBody = false)
-        return ExtractionGeneratorConfiguration(validationResult.descriptor, generatorOptions).generateDeclaration()
+        return ExtractionGeneratorConfiguration(validationResult.data, generatorOptions).generateDeclaration()
     }
 
     return runReadAction { generateFunction() }

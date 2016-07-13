@@ -24,10 +24,11 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.containers.MultiMap
 import org.jetbrains.kotlin.idea.codeInsight.CodeInsightUtils
-import org.jetbrains.kotlin.idea.refactoring.chooseContainerElementIfNecessary
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringBundle
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringUtil
+import org.jetbrains.kotlin.idea.refactoring.chooseContainerElementIfNecessary
 import org.jetbrains.kotlin.idea.util.psi.patternMatching.KotlinPsiRange
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
@@ -213,3 +214,8 @@ fun KtExpression.mustBeParenthesizedInInitializerPosition(): Boolean {
     if (left?.mustBeParenthesizedInInitializerPosition() ?: false) return true
     return PsiChildRange(left, operationReference).any { (it is PsiWhiteSpace) && it.textContains('\n') }
 }
+
+data class DataWithConflicts<T>(
+        val data: T,
+        val conflicts: MultiMap<PsiElement, String>
+)

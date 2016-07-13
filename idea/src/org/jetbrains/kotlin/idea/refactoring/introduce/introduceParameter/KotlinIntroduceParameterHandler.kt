@@ -491,10 +491,10 @@ open class KotlinIntroduceLambdaParameterHandler(
         override fun configureAndRun(
                 project: Project,
                 editor: Editor,
-                descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+                descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
                 onFinish: (ExtractionResult) -> Unit
         ) {
-            val lambdaExtractionDescriptor = helper.configureExtractLambda(descriptorWithConflicts.descriptor)
+            val lambdaExtractionDescriptor = helper.configureExtractLambda(descriptorWithConflicts.data)
             if (!ExtractionTarget.FAKE_LAMBDALIKE_FUNCTION.isAvailable(lambdaExtractionDescriptor)) {
                 showErrorHint(project, editor, "Can't introduce lambda parameter for this expression", INTRODUCE_LAMBDA_PARAMETER)
                 return

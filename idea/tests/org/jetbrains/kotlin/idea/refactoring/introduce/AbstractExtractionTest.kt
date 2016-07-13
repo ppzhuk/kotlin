@@ -216,12 +216,12 @@ abstract class AbstractExtractionTest() : KotlinLightCodeInsightFixtureTestCase(
                 override fun configureAndRun(
                         project: Project,
                         editor: Editor,
-                        descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+                        descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
                         onFinish: (ExtractionResult) -> Unit
                 ) {
                     doRefactor(
                             ExtractionGeneratorConfiguration(
-                                    descriptorWithConflicts.descriptor,
+                                    descriptorWithConflicts.data,
                                     ExtractionGeneratorOptions.DEFAULT.copy(target = extractionTarget, delayInitialOccurrenceReplacement = true)
                             ),
                             onFinish
@@ -269,10 +269,10 @@ abstract class AbstractExtractionTest() : KotlinLightCodeInsightFixtureTestCase(
                         override fun configureAndRun(
                                 project: Project,
                                 editor: Editor,
-                                descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+                                descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
                                 onFinish: (ExtractionResult) -> Unit
                         ) {
-                            val descriptor = descriptorWithConflicts.descriptor
+                            val descriptor = descriptorWithConflicts.data
                             val actualNames = descriptor.suggestedNames
                             val actualReturnTypes = descriptor.controlFlow.possibleReturnTypes.map {
                                 IdeDescriptorRenderers.SOURCE_CODE.renderType(it)

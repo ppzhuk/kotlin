@@ -48,6 +48,7 @@ import org.jetbrains.kotlin.idea.core.NewDeclarationNameValidator
 import org.jetbrains.kotlin.idea.core.compareDescriptors
 import org.jetbrains.kotlin.idea.refactoring.createTempCopy
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringBundle
+import org.jetbrains.kotlin.idea.refactoring.introduce.DataWithConflicts
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractionEngine.AnalysisResult.ErrorMessage
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractionEngine.AnalysisResult.Status
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractionEngine.OutputValue.*
@@ -739,7 +740,7 @@ internal fun KtNamedDeclaration.getGeneratedBody() =
             }
         } ?: throw AssertionError("Couldn't get block body for this declaration: ${getElementTextWithContext()}")
 
-fun ExtractableCodeDescriptor.validate(): ExtractableCodeDescriptorWithConflicts {
+fun ExtractableCodeDescriptor.validate(): DataWithConflicts<ExtractableCodeDescriptor> {
     fun getDeclarationMessage(declaration: PsiNamedElement, messageKey: String, capitalize: Boolean = true): String {
         val message = KotlinRefactoringBundle.message(messageKey, RefactoringUIUtil.getDescription(declaration, true))
         return if (capitalize) message.capitalize() else message
@@ -810,7 +811,7 @@ fun ExtractableCodeDescriptor.validate(): ExtractableCodeDescriptorWithConflicts
             }
     )
 
-    return ExtractableCodeDescriptorWithConflicts(this, conflicts)
+    return DataWithConflicts(this, conflicts)
 }
 
 private val LOG = Logger.getInstance(ExtractionEngine::class.java)

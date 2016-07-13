@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.idea.KotlinFileType;
 import org.jetbrains.kotlin.idea.core.KotlinNameSuggester;
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringUtilKt;
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringBundle;
+import org.jetbrains.kotlin.idea.refactoring.introduce.DataWithConflicts;
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractionEngine.*;
 import org.jetbrains.kotlin.idea.util.IdeDescriptorRenderers;
 import org.jetbrains.kotlin.lexer.KtTokens;
@@ -59,20 +60,20 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
 
     private final Project project;
 
-    private final ExtractableCodeDescriptorWithConflicts originalDescriptor;
+    private final DataWithConflicts<ExtractableCodeDescriptor> originalDescriptor;
     private ExtractableCodeDescriptor currentDescriptor;
 
     private final Function1<KotlinExtractFunctionDialog, Unit> onAccept;
 
     public KotlinExtractFunctionDialog(
             @NotNull Project project,
-            @NotNull ExtractableCodeDescriptorWithConflicts originalDescriptor,
+            @NotNull DataWithConflicts<ExtractableCodeDescriptor> originalDescriptor,
             @NotNull Function1<KotlinExtractFunctionDialog, Unit> onAccept) {
         super(project, true);
 
         this.project = project;
         this.originalDescriptor = originalDescriptor;
-        this.currentDescriptor = originalDescriptor.getDescriptor();
+        this.currentDescriptor = originalDescriptor.getData();
         this.onAccept = onAccept;
 
         setModal(true);
@@ -86,7 +87,7 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
     }
 
     private boolean isVisibilitySectionAvailable() {
-        return ExtractableAnalysisUtilKt.isVisibilityApplicable(originalDescriptor.getDescriptor().getExtractionData());
+        return ExtractableAnalysisUtilKt.isVisibilityApplicable(originalDescriptor.getData().getExtractionData());
     }
 
     private String getFunctionName() {
@@ -121,7 +122,7 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
     protected void init() {
         super.init();
 
-        ExtractableCodeDescriptor extractableCodeDescriptor = originalDescriptor.getDescriptor();
+        ExtractableCodeDescriptor extractableCodeDescriptor = originalDescriptor.getData();
 
         functionNameField = new NameSuggestionsField(
                 ArrayUtil.toStringArray(extractableCodeDescriptor.getSuggestedNames()),
@@ -258,7 +259,7 @@ public class KotlinExtractFunctionDialog extends DialogWrapper {
 
     @NotNull
     private ExtractableCodeDescriptor createDescriptor() {
-        return createNewDescriptor(originalDescriptor.getDescriptor(),
+        return createNewDescriptor(originalDescriptor.getData(),
                                    getFunctionName(),
                                    getVisibility(),
                                    parameterTablePanel.getReceiverInfo(),

@@ -542,8 +542,3 @@ class AnalysisResult (
         }
     }
 }
-
-class ExtractableCodeDescriptorWithConflicts(
-        val descriptor: ExtractableCodeDescriptor,
-        val conflicts: MultiMap<PsiElement, String>
-)

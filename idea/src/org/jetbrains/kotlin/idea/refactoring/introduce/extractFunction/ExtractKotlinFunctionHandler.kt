@@ -25,6 +25,7 @@ import com.intellij.refactoring.RefactoringActionHandler
 import org.jetbrains.kotlin.idea.codeInsight.CodeInsightUtils
 import org.jetbrains.kotlin.idea.refactoring.KotlinRefactoringBundle
 import org.jetbrains.kotlin.idea.refactoring.getExtractionContainers
+import org.jetbrains.kotlin.idea.refactoring.introduce.DataWithConflicts
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractFunction.ui.KotlinExtractFunctionDialog
 import org.jetbrains.kotlin.idea.refactoring.introduce.extractionEngine.*
 import org.jetbrains.kotlin.idea.refactoring.introduce.selectElementsWithTargetSibling
@@ -40,10 +41,10 @@ class ExtractKotlinFunctionHandler(
         override fun configureAndRun(
                 project: Project,
                 editor: Editor,
-                descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+                descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
                 onFinish: (ExtractionResult) -> Unit
         ) {
-            KotlinExtractFunctionDialog(descriptorWithConflicts.descriptor.extractionData.project, descriptorWithConflicts) {
+            KotlinExtractFunctionDialog(descriptorWithConflicts.data.extractionData.project, descriptorWithConflicts) {
                 doRefactor(it.currentConfiguration, onFinish)
             }.show()
         }

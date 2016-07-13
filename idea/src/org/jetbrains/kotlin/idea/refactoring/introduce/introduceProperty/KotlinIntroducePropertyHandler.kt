@@ -38,10 +38,10 @@ class KotlinIntroducePropertyHandler(
         override fun configureAndRun(
                 project: Project,
                 editor: Editor,
-                descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+                descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
                 onFinish: (ExtractionResult) -> Unit
         ) {
-            val descriptor = descriptorWithConflicts.descriptor
+            val descriptor = descriptorWithConflicts.data
             val target = propertyTargets.filter { it.isAvailable(descriptor) }.firstOrNull()
             if (target != null) {
                 val options = ExtractionGeneratorOptions.DEFAULT.copy(target = target, delayInitialOccurrenceReplacement = true)

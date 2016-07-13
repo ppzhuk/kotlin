@@ -25,6 +25,7 @@ import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.refactoring.BaseRefactoringProcessor
 import com.intellij.ui.awt.RelativePoint
 import org.jetbrains.kotlin.idea.refactoring.checkConflictsInteractively
+import org.jetbrains.kotlin.idea.refactoring.introduce.DataWithConflicts
 import org.jetbrains.kotlin.idea.refactoring.introduce.showErrorHint
 import org.jetbrains.kotlin.idea.util.application.executeWriteCommand
 import javax.swing.event.HyperlinkEvent
@@ -40,7 +41,7 @@ abstract class ExtractionEngineHelper(val operationName: String) {
     abstract fun configureAndRun(
             project: Project,
             editor: Editor,
-            descriptorWithConflicts: ExtractableCodeDescriptorWithConflicts,
+            descriptorWithConflicts: DataWithConflicts<ExtractableCodeDescriptor>,
             onFinish: (ExtractionResult) -> Unit = {}
     )
 }
